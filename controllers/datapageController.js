@@ -1,16 +1,37 @@
 const Datapage = require('../models/datapage');
 
 const datapageController = {
-    // Crear un nuevo contacto
-    async create(req, res) {
-        try {
-            const { slogan,	ubicacion,	telefono,	email,	acerca,	mantenimiento,	electricidad,	plomeria } = req.body;
-            const datapage = await Datapage.create({ slogan,	ubicacion,	telefono,	email,	acerca,	mantenimiento,	electricidad,	plomeria });
-            res.status(201).json(datapage);
-        } catch (error) {
-            res.status(400).json({ error: error.message });
+// Crear un nuevo contacto
+async create(req, res) {
+    try {
+        const { slogan, ubicacion, telefono, email, acerca, mantenimiento, electricidad, plomeria } = req.body;
+
+        // Verificar si ya existe un registro con isdelete=false
+        const existingDatapage = await Datapage.findOne({ where: { isdelete: false } });
+
+        if (existingDatapage) {
+            // Si existe, no permitimos la creación del nuevo registro
+            return res.status(400).json({ error: 'Ya existe un registro activo.' });
         }
-    },
+
+        // Si no existe, se puede crear el nuevo registro
+        const datapage = await Datapage.create({
+            slogan,
+            ubicacion,
+            telefono,
+            email,
+            acerca,
+            mantenimiento,
+            electricidad,
+            plomeria
+        });
+
+        res.status(201).json(datapage);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+},
+
 
     // Obtener todos los contactos que no están eliminados
     async getAll(req, res) {
