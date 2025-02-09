@@ -1,4 +1,107 @@
-<div class="hero_area">
+<!-- Incluir Handlebars.js -->
+<script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+
+<!-- Inicialización de Owl Carousel -->
+<script>
+  $(document).ready(function(){
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      nav: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 2
+        },
+        1000: {
+          items: 3
+        }
+      }
+    });
+  });
+</script>
+</body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Dinámica</title>
+  <!-- Estilos personalizados -->
+  <style>
+    #dynamic-slogan p {
+      font-size: 24px; /* Aumenta el tamaño de la letra */
+      font-weight: bold; /* Hace que el texto sea negrita */
+      font-family: 'Arial', sans-serif; /* Cambia la fuente */
+    }
+  </style>
+</head>
+<body>
+  <div class="hero_area">
+    <!-- slider section -->
+    <section class="slider_section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="detail-box">
+              <h1>
+                Repair and
+                <br />
+                Maintenance
+                <br />
+                Services
+              </h1>
+              <!-- Aquí es donde se va a colocar el slogan dinámico -->
+              <div id="dynamic-slogan">
+
+              </div>
+              <a href="">
+                Contact Us
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="img-box">
+              <img src="images/slider-img.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end slider section -->
+  </div>
+
+  <!-- Script para reemplazar el contenido dinámico -->
+  <script>
+    fetch('http://localhost:3000/api/datapage')
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          const slogan = data[0].slogan;
+          const sloganElement = document.getElementById('dynamic-slogan');
+          if (sloganElement) {
+            sloganElement.innerHTML = `<p>${slogan}</p>`;
+          } else {
+            console.error('No se encontró el elemento con ID "dynamic-slogan".');
+          }
+        } else {
+          console.error('No se encontró ningún dato en la respuesta.');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching slogan:', error);
+      });
+  </script>
+</body>
+</html>
+
+
+
+
+{{!-- <div class="hero_area">
   <!-- slider section -->
   <section class="slider_section">
     <div class="container">
@@ -32,7 +135,7 @@
     </div>
   </section>
   <!-- end slider section -->
-</div>
+</div> --}}
 
 <!-- feature section -->
 <section class="feature_section">
@@ -117,10 +220,6 @@
   </div>
 </section>
 
-<!-- end feature section -->
-
-<!-- client section -->
-
 <section class="client_section">
   <div class="container">
     <div class="heading_container heading_center">
@@ -138,115 +237,36 @@
               </div>
               <div class="client_detail">
                 <div class="client_info">
-                  <h6>
-                    Jorch morik
-                  </h6>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
+                  <ul>
+                    {{#each comentarios}}
+                    <li class="comentario_card">
+                      <div class="client_id">
+                        <div class="client_detail">
+                          <div class="client_info">
+                            <h6>{{usuario}}</h6>
+                            <!-- Mostrar estrellas según la calificación -->
+                            {{#each (range 1 (min calificacion 5))}}
+                              <i class="fa fa-star" aria-hidden="true"></i>
+                            {{/each}}
+                            {{#each (range (min calificacion 5) 4)}}
+                              <i class="fa fa-star-o" aria-hidden="true"></i>
+                            {{/each}}
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <div class="client_text">
+                        <p>
+                          <i class="fa fa-quote-left" aria-hidden="true"></i> 
+                          {{descripcion}}
+                          <i class="fa fa-quote-right" aria-hidden="true"></i>
+                        </p>
+                      </div>
+                    </li>
+                    {{/each}}
+                  </ul>
                 </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
               </div>
-            </div>
-            <div class="client_text">
-              <p>
-                chunks as necessary, making this the first true generator on the
-                Internet. It uses a dictionary of over 200 Latin words, combined
-                with a handful of model sentence structures, to generate Lorem
-                Ipsum
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="box">
-            <div class="client_id">
-              <div class="img-box">
-                <img src="images/client-2.jpg" alt="" />
-              </div>
-              <div class="client_detail">
-                <div class="client_info">
-                  <h6>
-                    Jorch morik
-                  </h6>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div class="client_text">
-              <p>
-                chunks as necessary, making this the first true generator on the
-                Internet. It uses a dictionary of over 200 Latin words, combined
-                with a handful of model sentence structures, to generate Lorem
-                Ipsum
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="box">
-            <div class="client_id">
-              <div class="img-box">
-                <img src="images/client-1.jpg" alt="" />
-              </div>
-              <div class="client_detail">
-                <div class="client_info">
-                  <h6>
-                    Jorch morik
-                  </h6>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div class="client_text">
-              <p>
-                chunks as necessary, making this the first true generator on the
-                Internet. It uses a dictionary of over 200 Latin words, combined
-                with a handful of model sentence structures, to generate Lorem
-                Ipsum
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="box">
-            <div class="client_id">
-              <div class="img-box">
-                <img src="images/client-2.jpg" alt="" />
-              </div>
-              <div class="client_detail">
-                <div class="client_info">
-                  <h6>
-                    Jorch morik
-                  </h6>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
-                <i class="fa fa-quote-left" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div class="client_text">
-              <p>
-                chunks as necessary, making this the first true generator on the
-                Internet. It uses a dictionary of over 200 Latin words, combined
-                with a handful of model sentence structures, to generate Lorem
-                Ipsum
-              </p>
             </div>
           </div>
         </div>
@@ -254,5 +274,6 @@
     </div>
   </div>
 </section>
+
 
 <!-- end client section -->

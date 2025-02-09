@@ -784,6 +784,29 @@ a:focus {
 
 // end info section
 
+// estilo para las comillas
+.client_text {
+  position: relative;
+  padding-left: 20px;
+}
+
+.client_text i.fa-quote-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 24px;
+  color: #ffdd57;
+}
+
+.client_text p {
+  display: inline;
+  margin-left: 10px; /* Ajustar espacio entre comilla y texto */
+  font-size: 14px;
+  color: #555;
+}
+
+// fin de estilo
+
 
 
 /* footer section*/

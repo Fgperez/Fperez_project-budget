@@ -1,5 +1,35 @@
 <!-- service section -->
 
+<script>
+  fetch('http://localhost:3000/api/datapage')
+    .then(response => response.json())
+    .then(data => {
+      if (data.length > 0) {
+        const mantenimiento = data[0].mantenimiento;
+        const electricidad = data[0].electricidad;
+        const plomeria = data[0].plomeria;
+
+        const mantenientoElement = document.getElementById('dynamic-mantenimiento');
+        const electricidadElement = document.getElementById('dynamic-electricidad');
+        const plomeriaElement = document.getElementById('dynamic-plomeria');
+
+        if (mantenientoElement && electricidadElement && plomeriaElement) {
+          mantenientoElement.innerHTML = `<p>${mantenimiento}</p>`;
+          electricidadElement.innerHTML = `<p>${electricidad}</p>`;
+          plomeriaElement.innerHTML = `<p>${plomeria}</p>`;
+
+        } else {
+          console.error('No se encontraron los elementos con ID "dynamic-manteniento", "dynamic-electricidad" o "dynamic-plomeria".');
+        }
+      } else {
+        console.error('No se encontró ningún dato en la respuesta.');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+</script>
+
 <section class="service_section layout_padding">
   <div class="container">
     <div class="heading_container heading_center">
@@ -15,10 +45,7 @@
             <h5>
               Maintenance
             </h5>
-            <p>
-              when looking at its layout. The point of using Lorem Ipsum is that
-              it has a more-or-less normal
-            </p>
+                <span id="dynamic-mantenimiento" ></span>
           </div>
         </div>
       </div>
@@ -32,8 +59,7 @@
               Electrical
             </h5>
             <p>
-              when looking at its layout. The point of using Lorem Ipsum is that
-              it has a more-or-less normal
+                <span id="dynamic-electricidad" ></span>
             </p>
           </div>
         </div>
@@ -48,8 +74,7 @@
               Plumbing
             </h5>
             <p>
-              when looking at its layout. The point of using Lorem Ipsum is that
-              it has a more-or-less normal
+                <span id="dynamic-plomeria" ></span>
             </p>
           </div>
         </div>

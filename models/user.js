@@ -16,6 +16,7 @@ const User = sequelize.define('User', {
         allowNull: false,
     },
 }, {
+    schema: '14209140',
     tableName: 'users',
     timestamps: false,
 });

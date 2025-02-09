@@ -1,5 +1,34 @@
 <!-- about section -->
 
+  <style>
+      #dynamic-acerca {
+    display: block; /* Asegura que el contenido sea tratado como un bloque */
+    text-align: justify; /* Justifica el texto */
+    margin-bottom: 20px; /* Espacio debajo del texto */
+  }
+  </style>
+
+  <script>
+    fetch('http://localhost:3000/api/datapage')
+      .then(response => response.json())
+      .then(data => {
+        if (data.length > 0) {
+          const acerca = data[0].acerca;
+          const acercaElement = document.getElementById('dynamic-acerca');
+          if (acercaElement) {
+            acercaElement.innerHTML = `<p>${acerca}</p>`;
+          } else {
+            console.error('No se encontró el elemento con ID "dynamic-acerca".');
+          }
+        } else {
+          console.error('No se encontró ningún dato en la respuesta.');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching acerca:', error);
+      });
+  </script>
+
 <section class="about_section layout_padding-bottom">
   <div class="container">
     <div class="row">
@@ -8,12 +37,8 @@
           <h2>
             About us
           </h2>
+          <span id="dynamic-acerca"></span>
           <p>
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomisedThere are many variations of passages of Lorem
-            Ipsum available, but the majority have suffered alteration in some
-            form, by injected humour, or randomised
           </p>
           <a href="">
             Read More

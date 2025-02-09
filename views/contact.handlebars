@@ -1,6 +1,6 @@
 <!-- contact section -->
 
-<section class="contact_section layout_padding">
+{{!-- <section class="contact_section layout_padding">
   <div class="container">
     <div class="heading_container">
       <h2>
@@ -38,6 +38,94 @@
       </div>
     </div>
   </div>
+</section> --}}
+<style>
+  /* Asegúrate de que el texto de los campos de entrada sea visible */
+form input, form textarea {
+  color: black !important;
+  background-color: white; /* Fondo blanco */
+  border: 1px solid #ccc;   /* Borde visible */
+}
+</style>
+
+<!-- contact section -->
+<section class="contact_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2>
+        Contact Us
+      </h2>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <form id="contactForm">
+          <div>
+            <input type="text" name="nombre" placeholder="Name" required />
+          </div>
+          <div>
+            <input type="text" name="telefono" placeholder="Phone Number" required />
+          </div>
+          <div>
+            <input type="email" name="email" placeholder="Email" required />
+          </div>
+          <div>
+            <input type="text" name="mensaje" class="message-box" placeholder="Message" required />
+          </div>
+          <div class="d-flex">
+            <button type="submit">SEND</button>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <div class="map_container">
+          <div class="map">
+            <div id="googleMap" style="width:100%;height:100%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+
 <!-- end contact section -->
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Evitar el comportamiento predeterminado de enviar el formulario
+
+    const formData = new FormData(this); // Obtener los datos del formulario
+
+    // Convertir FormData a un objeto JSON
+    const data = {
+      nombre: formData.get('nombre'),
+      telefono: formData.get('telefono'),
+      email: formData.get('email'),
+      mensaje: formData.get('mensaje')
+    };
+
+    try {
+      // Enviar los datos al backend usando fetch
+      const response = await fetch('/api/contactos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Asegurarse de enviar JSON
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert('Contacto creado exitosamente !!!');
+        // Limpiar los campos del formulario
+        this.reset();
+      } else {
+        const error = await response.json();
+        alert('Error: ' + error.message);
+      }
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      alert('Hubo un error al enviar el formulario.');
+    }
+  });
+</script>
