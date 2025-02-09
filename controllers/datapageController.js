@@ -7,7 +7,7 @@ async create(req, res) {
         const { slogan, ubicacion, telefono, email, acerca, mantenimiento, electricidad, plomeria } = req.body;
 
         // Verificar si ya existe un registro con isdelete=false
-        const existingDatapage = await Datapage.findOne({ where: { isdelete: false } });
+        const existingDatapage = await Datapage.findOne({ where: { isDelete: false } });
 
         if (existingDatapage) {
             // Si existe, no permitimos la creación del nuevo registro
